@@ -1,0 +1,23 @@
+[
+        {
+            "date": "2024-02-01",
+            "title": "Login Test with Cypress",
+            "description": "Automating login functionality is crucial for streamlining testing processes, improving test coverage, ensuring accuracy and reliability, enabling faster feedback loops, optimizing resource utilization, facilitating scalability, and supporting parallel testing efforts. By automating login tests, organizations can enhance the quality, efficiency, and agility of their software development lifecycle.",
+            "tags": "#cypress #login #POO",
+            "linkReposity":"https://github.com/testoml/LoginCypress"
+        },
+        {
+            "date": "2024-03-14",
+            "title": "Multiple reporters HTML - Mochawesome - Cypress",
+            "description": "In automation, a reporter plays a crucial role in providing feedback and insights into the execution of test cases <br> 1. This is a third-party reporter that generates HTML reports with rich formatting.<br> 2. It provides detailed test results including test names, durations, commands, and screenshots.<br>3. It's popular for its visually appealing and informative reports.",
+            "tags": "#Cypress #Mochawesome #report #HTML #JavaScript",
+            "linkReposity":"https://github.com/testoml/multipleReportersHTMLCypress"
+        },
+        {
+            "date": "2024-04-04",
+            "title": "Postman - OpenWeather",
+            "description": "<p>Automation API using <a href='https://openweathermap.org/'>OpenWeather</a>, dive into different scenarios where you can understand how to set your request (GET, POST, PUT, DELETE), create API KEY, configure different variables in an environment, create tests to allow validation different scenarios</p>",
+            "tags": "#Postman #Test #Collection #Request #Response",
+            "linkReposity":"https://github.com/testoml/PostmanOpenWeather"
+        }
+]
