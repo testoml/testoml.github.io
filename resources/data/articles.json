@@ -1,23 +1,52 @@
 [
         {
-            "date": "2024-02-01",
-            "title": "Login Test with Cypress",
+            "date": "2024",
+            "title": "Login Implementation with Cypress",
             "description": "Automating login functionality is crucial for streamlining testing processes, improving test coverage, ensuring accuracy and reliability, enabling faster feedback loops, optimizing resource utilization, facilitating scalability, and supporting parallel testing efforts. By automating login tests, organizations can enhance the quality, efficiency, and agility of their software development lifecycle.",
             "tags": "#cypress #login #POO",
             "linkReposity":"https://github.com/testoml/LoginCypress"
         },
         {
-            "date": "2024-03-14",
-            "title": "Multiple reporters HTML - Mochawesome - Cypress",
-            "description": "In automation, a reporter plays a crucial role in providing feedback and insights into the execution of test cases <br> 1. This is a third-party reporter that generates HTML reports with rich formatting.<br> 2. It provides detailed test results including test names, durations, commands, and screenshots.<br>3. It's popular for its visually appealing and informative reports.",
+            "date": "2024",
+            "title": "Cypress Actions",
+            "description": "Implementing GitHub Actions in a Cypress.io project empowers development teams to automate testing processes, improve code quality, and accelerate the delivery of high-quality software.",
+            "tags": "#cypress #cypressActions",
+            "linkReposity":"https://github.com/testoml/cypressActions"
+        },
+        {
+            "date": "2024",
+            "title": " Multiple reporters HTML Cypress",
+            "description": "Mochawesome Reporter: This is a third-party reporter that generates HTML reports with rich formatting. It provides detailed test results including test names, durations, commands, and screenshots. It's popular for its visually appealing and informative reports.",
             "tags": "#Cypress #Mochawesome #report #HTML #JavaScript",
             "linkReposity":"https://github.com/testoml/multipleReportersHTMLCypress"
         },
         {
-            "date": "2024-04-04",
-            "title": "Postman - OpenWeather",
-            "description": "<p>Automation API using <a href='https://openweathermap.org/'>OpenWeather</a>, dive into different scenarios where you can understand how to set your request (GET, POST, PUT, DELETE), create API KEY, configure different variables in an environment, create tests to allow validation different scenarios</p>",
-            "tags": "#Postman #Test #Collection #Request #Response",
+            "date": "2024",
+            "title": "Postman Open Weather",
+            "description": "",
+            "tags": "#Postman #CRUD",
             "linkReposity":"https://github.com/testoml/PostmanOpenWeather"
+        },
+        {
+            "date": "2024",
+            "title": "Mongo DB and Postman automation API",
+            "description": "This project shows how you can install MongoDB. Create a basic API using mongoDB locally and how you can automate those scenarios using Postman",
+            "tags": "#MongoDB #Postman #CRUD",
+            "linkReposity":"https://github.com/testoml/ApiTradeLocal"
+        },
+        {
+            "date": "2024",
+            "title": "JavaScript and Google Sheet",
+            "description": "The project shows the way to connect to Google sheet and manipulate information to create a page using information cells",
+            "tags": "#JavaScript #GoogleSheet",
+            "linkReposity":"https://github.com/testoml/JS_GoogleSheet"
+        } ,
+        {
+            "date": "2024",
+            "title": "Extended HTML Report in Selenium",
+            "description": "This repository shows how you can implement HTML report in Selenium, besides how the application attaches images, and the end how you can run those test cases using Jenkins",
+            "tags": "#Selenium #C# #NUnit #Jenkins",
+            "linkReposity":"https://github.com/testoml/ExtendReport_Selenium"
         }
+
 ]
