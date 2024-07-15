@@ -73,8 +73,8 @@ function load(sheet) {
 
 
 function loadCard(div, date, company, position, description) {
-    let card = createElement(div, 'div', 'card bd-gray-300 mb-3', '')
-    let cardBody = createElement(card, 'div', 'card-body resume-wrap ftco-animate fadeInUp ftco-animated', '')
+    //let card = createElement(div, 'div', 'card bd-gray-300 mb-3', '')
+    let cardBody = createElement(div, 'div', 'card-body resume-wrap ftco-animate fadeInUp ftco-animated', '')
     createElement(cardBody, 'span', 'date', `${date}`)
     createElement(cardBody, 'h2', 'card-title', `${company}`)
     createElement(cardBody, 'span', 'position', `${position}`)
