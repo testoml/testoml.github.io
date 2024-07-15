@@ -7,6 +7,8 @@ const query2 = 'tqx=out:json';
 const content = document.querySelector('.experience')
 const contentEducation = document.querySelector('.education')
 const contentSkill = document.querySelector('.skill')
+const cv = document.querySelector('#cv')
+const menu = document.querySelector('#ftco-nav')
 
 //Allow get table from google sheet
 function getTable(endpoint) {
@@ -30,7 +32,7 @@ function load(sheet) {
     const query4 = encodeURIComponent(select);
     var rows = []
     var cols = []
-    var table= []
+    var table = []
     const endpoint = `${url}${ssid}${query1}&${query2}&${query3}&tq=${query4}`;
     getTable(endpoint).then(data => {
         data.rows.forEach((row) => {
@@ -57,7 +59,7 @@ function load(sheet) {
     })
     const data = new Promise((resolve, reject) => {
         setTimeout(() => {
-           
+
             resolve(table);
             if (table.length === 0) {
                 reject(new Error('There are not data'))
@@ -68,10 +70,6 @@ function load(sheet) {
     return data
 }
 
-
-function getData(ms, sheet) {
-  
-}
 
 
 function loadCard(div, date, company, position, description) {
@@ -85,24 +83,29 @@ function loadCard(div, date, company, position, description) {
 
 
 async function fetchData() {
-    
+
     var obj = {}
     try {
-         obj.load = await load('Load')
-         obj.education = await load('Education')
-         obj.experience = await load('Experience')
-         obj.aditional =  await load('Aditional')
-         console.log(obj)
-        const presentationDiv = document.querySelector('#presentation')
-        obj.load.forEach(item => {
-            createElement(presentationDiv, `${item.Tag}`, `${item.Css}`, `${item.Description}`)
-        })
-         //Show Experience
+        obj.load = await load('Load')
+        obj.education = await load('Education')
+        obj.experience = await load('Experience')
+        obj.aditional = await load('Aditional')
+        obj.project = await load('Project')
+        console.log(obj)
+        showMenu(obj.aditional)
+        //Show header presentation
+        showHeader(obj.load)
+        showAbout(obj.aditional)
+        //Show Experience
         showExperience(obj.experience)
         //Show Education
         showEducation(obj.education)
         //Show Skill
         showSkill(obj.aditional)
+        //Show Tools
+        showTools(obj.aditional)
+        //show Project
+        showProject(obj.project)
 
     } catch (error) {
         console.log(error.message)
@@ -111,7 +114,16 @@ async function fetchData() {
 
 fetchData()
 
-function showTitle(parent, text, subText){
+function showMenu(data) {
+    const ul = createElement(menu, 'ul', 'navbar-nav nav ml-auto', '')
+    //li
+    const li = filterByCategories(data, 'Menu')
+    li.forEach(item => {
+        insertElement(ul, `<li class="nav-item"><a href="${item.Link}" class="nav-link"><span>${item.Name}</span></a></li>`)
+    })
+}
+
+function showTitle(parent, text, subText) {
     insertElement(parent, `<div class=" heading-section text-center ftco-animate fadeInUp ftco-animated">
           	<h1 class="big big-2">${text}</h1>
             <h2 class="mb-4">${text}</h2>
@@ -119,9 +131,46 @@ function showTitle(parent, text, subText){
           </div>`)
 }
 
-function showExperience(data){
-    showTitle(content, "Experience", "")
-    const row = createElement(content, `div`, `row my-5`, ``)
+function showHeader(data) {
+    ancle(cv, 'home')
+    const presentationDiv = createElement(cv, 'div', 'px-4 py-5 my-5 text ', '')
+    data.forEach(item => {
+        if(item.Tag === 'a'){
+            insertElement(presentationDiv, `<a class="${item.Css}" href="${item.Link}">${item.Description}</a>`)
+        } else {
+            createElement(presentationDiv, `${item.Tag}`, `${item.Css}`, `${item.Description}`)
+        }
+        
+    })
+}
+
+
+function showAbout(data) {
+    ancle(cv, 'about')
+    const section = createElement(cv, 'section', 'ftco-section contact-section ftco-no-pb my-5', '') 
+    showTitle(section, "About Me", "Throughout my career, I have specialized in Selenium automation with C#, integrating seamlessly with SQL Server in Azure environments. Additionally, I possess proficiency in utilizing tools such as Postman, Cypress, and JMeter to drive automation initiatives and ensure comprehensive test coverage.")
+    const about = filterByCategories(data,'About')
+    //const div = createElement(section, 'div', 'd-flex contact-info mb-5', '')
+    const containContact = createElement(section, 'div', 'row d-flex contact-info mb-5', '')
+    about.forEach(item => {
+        insertElement(containContact, `<div class="col-md-6 col-lg-3 d-flex ftco-animate fadeInUp ftco-animated">
+            <div class="align-self-stretch box p-4 text-center">
+                <div class="icon d-flex align-items-center justify-content-center">
+          			<span class="${item.Icon}"></span>
+          		</div>
+                <h3 class="mb-4">${item.Name}</h3>
+              <p><a href="${item.Link}">${item.Description}</a></p>
+            </div>
+        </div>`)
+    })
+
+}
+
+function showExperience(data) {
+    ancle(cv, "experience")
+    const section = createElement(cv, 'section', 'ftco-section ftco-no-pb my-5', '')
+    showTitle(section, "Experience", "")
+    const row = createElement(section, `div`, `row my-5`, ``)
     const div1 = createElement(row, `div`, `col-sm-6 mb-3 mb-sm-0`, ``)
     const div2 = createElement(row, `div`, `col-sm-6`, ``)
 
@@ -135,40 +184,60 @@ function showExperience(data){
 
 }
 
-function showEducation(data){
-     showTitle(content, "Education", "")
-     const rowEducation = createElement(contentEducation, `div`, `row my-5`, ``)
-     const divEducation1 = createElement(rowEducation, `div`, `col-sm-6 mb-3 mb-sm-0`, ``)
-     const divEducation2 = createElement(rowEducation, `div`, `col-sm-6`, ``)
-     data.forEach(item => {
-         if (item.Id % 2 !== 0) {
-             loadCard(divEducation1, item.Date, item.School, item.Degree, item.Description)
-         } else {
-             loadCard(divEducation2, item.Date, item.School, item.Degree, item.Description)
-         }
-     })
-}
-
-function showSkill(data){
-        //variables
-        var skill = []
-        skill = data.filter(d => d.Sheet === "Skill")
-        showTitle(contentSkill, "Skills", "")
-        const rowSkill = createElement(contentSkill, `div`, `row my-5`, ``)
-        const divSkill1 = createElement(rowSkill, `div`, `col-sm-6 mb-3 mb-sm-0 animate-box`, ``)
-        const divSkill2 = createElement(rowSkill, `div`, `col-sm-6 animate-box`, ``)
-        skill.forEach(item => {
-            if (item.Id % 2 !== 0) {
-               progressBar(divSkill1, item.Name, item.Avarage)
-            } else {
-               progressBar(divSkill2, item.Name, item.Avarage)
-            }
-        })
+function showEducation(data) {
+    ancle(cv, "education")
+    const section = createElement(cv, 'section', 'ftco-section ftco-no-pb my-5', '')
+    showTitle(section, "Education", "")
+    const rowEducation = createElement(section, `div`, `row my-5`, ``)
+    const divEducation1 = createElement(rowEducation, `div`, `col-sm-6 mb-3 mb-sm-0`, ``)
+    const divEducation2 = createElement(rowEducation, `div`, `col-sm-6`, ``)
+    data.forEach(item => {
+        if (item.Id % 2 !== 0) {
+            loadCard(divEducation1, item.Date, item.School, item.Degree, item.Description)
+        } else {
+            loadCard(divEducation2, item.Date, item.School, item.Degree, item.Description)
+        }
+    })
 }
 
 
-function progressBar(parent, name, avarage){
-    insertElement(parent,  `
+function filterByCategories(data, filter) {
+    var list = []
+    list = data.filter(d => d.Categories === filter)
+    return list
+}
+
+function showSkill(data) {
+    ancle(cv, "skills")
+    const skill = filterByCategories(data, "Skill")
+    const section = createElement(cv, 'section', 'ftco-section ftco-no-pb my-5', '')
+    showTitle(section, "Skills", "")
+    const rowSkill = createElement(section, `div`, `row my-5`, ``)
+    skill.forEach(item => {
+        const div = createElement(rowSkill, `div`, `col-md-6 animate-box`, ``)
+        progressBar(div, item.Name, item.Avarage)
+
+
+    })
+}
+
+function showTools(data) {
+    ancle(cv, "tools")
+    const tools = filterByCategories(data, "Tool")
+    const section = createElement(cv, 'section', 'ftco-section ftco-no-pb my-5', '')
+    showTitle(section, "Tools", "")
+    boxTool(tools)
+}
+
+function showProject(data) {
+    ancle(cv, "projects")
+    const section = createElement(cv, 'section', 'ftco-section ftco-no-pb my-5', '')
+    showTitle(section, "Projects", "")
+    boxProject(data)
+}
+
+function progressBar(parent, name, avarage) {
+    insertElement(parent, `
         <div class="progress-wrap ftco-animate fadeInUp ftco-animated">
             <h3>${name}</h3>
             <div class="progress">
@@ -178,80 +247,49 @@ function progressBar(parent, name, avarage){
             </div>
         </div>
     `)
-
-
-       
 }
 
 
-
-function showPage() {
-    var education = []
-    var skill = []
-    var experience = []
-    var loadInformation = []
-    load('Education').then((data) => { education = data.filter(d => d.Sheet === "Education") })
-    load('Aditional').then((data) => { skill = data.filter(d => d.Sheet === "Skill") })
-    load('Experience').then((data) => { experience = data.filter(d => d.Sheet === "Experience") })
-    load('Load').then((data) => {
-        loadInformation = data.filter(d => d.Sheet === "Load")
-        const content = document.querySelector('.experience')
-        const contentEducation = document.querySelector('.education')
-        const contentSkill = document.querySelector('.skill')
-        //Load - Personal Presentation
-        const presentationDiv = document.querySelector('#presentation')
-        loadInformation.forEach(item => {
-            createElement(presentationDiv, `${item.Tag}`, `${item.Css}`, `${item.Description}`)
-        })
-        //Experience
-        createElement(content, `h2`, `text-center fs-1 mb-3`, `Experience`)
-        const row = createElement(content, `div`, `row`, ``)
-        const div1 = createElement(row, `div`, `col-sm-6 mb-3 mb-sm-0`, ``)
-        const div2 = createElement(row, `div`, `col-sm-6`, ``)
-
-        experience.forEach(item => {
-            if (item.Id % 2 !== 0) {
-                loadCard(div1, item.Date, item.Company, item.Position, item.Experience)
-            } else {
-                loadCard(div2, item.Date, item.Company, item.Position, item.Experience)
-            }
-        })
-        //Education
-        createElement(contentEducation, `h2`, `text-center fs-1 mb-3`, `Education`)
-        const rowEducation = createElement(contentEducation, `div`, `row`, ``)
-        const divEducation1 = createElement(rowEducation, `div`, `col-sm-6 mb-3 mb-sm-0`, ``)
-        const divEducation2 = createElement(rowEducation, `div`, `col-sm-6`, ``)
-        education.forEach(item => {
-            if (item.Id % 2 !== 0) {
-                loadCard(divEducation1, item.Date, item.School, item.Degree, item.Description)
-            } else {
-                loadCard(divEducation2, item.Date, item.Company, item.Position, item.Description)
-            }
-        })
-        //skill
-        createElement(contentSkill, `h2`, `text-center fs-1 mb-3`, `Skills`)
-        const rowSkill = createElement(contentSkill, `div`, `row`, ``)
-        const divSkill1 = createElement(rowSkill, `div`, `col-sm-6 mb-3 mb-sm-0`, ``)
-        const divSkill2 = createElement(rowSkill, `div`, `col-sm-6`, ``)
-        skill.forEach(item => {
-            if (item.Id % 2 !== 0) {
-                insertElement(divSkill1, `
-                <h3>${item.Name}</h3>
-                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="${item.Avarage}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: ${item.Avarage}%">${item.Avarage}%</div>
-                </div>`)
-            } else {
-                insertElement(divSkill2, `
-                    <h3>${item.Name}</h3>
-                    <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="${item.Avarage}" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" style="width: ${item.Avarage}%">${item.Avarage}%</div>
-                    </div>`)
-            }
-        })
+function boxTool(data) {
+    const div = createElement(cv, 'div', 'row', '')
+    data.forEach(item => {
+        insertElement(div, `<div class="col-md-4 text-center d-flex ftco-animate fadeInUp ftco-animated">
+            <a href="#" class="services-1">
+                <span class="icon">
+                    <img src="${item.Link}" height="${item.Avarage}"/>
+                </span>
+                <div class="desc">
+                    <h3 class="mb-5">${item.Name}</h3>
+                </div>
+            </a>
+        </div>
+`)
     })
 }
 
-//showPage()
+function boxProject(data) {
+    const div = createElement(cv, 'div', 'row d-flex', '')
+    data.forEach(item => {
+        insertElement(div, `<div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
+          	<div class="blog-entry justify-content-end">       
+              <div class="text mt-3 float-right d-block">
+              	<div class="d-flex align-items-center mb-3 meta">
+	                <p class="mb-0">
+	                	<span class="mr-2">${item.Date}</span>
+	                </p>
+                </div>
+                <h3 class="heading"><a href="${item.Link}">${item.Title}</a></h3>
+                <p>${item.Description}</p>
+              </div>
+            </div>
+          </div>
+     `)
+    })
+}
+
+function ancle(parent, name) {
+    insertElement(parent, `<a name="${name}"></a>`)
+}
 
 
 function createElement(parent, element, css, text) {
@@ -261,6 +299,7 @@ function createElement(parent, element, css, text) {
     if (typeof parent === 'string') {
         document.querySelector(`${parent}`).appendChild(el)
     } else {
+
         parent.appendChild(el)
     }
     return el;
